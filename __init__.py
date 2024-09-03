@@ -122,7 +122,7 @@ class Plugin(BasePlugin):
             self.probed_users[user] = "processed_leecher"
             return
 
-        if (num_files <= 0 or num_folders <= 0) and self.probed_users[user] != "requesting_shares":
+        if (num_files < self.settings["num_files"] or num_folders < self.settings["num_folders"]) and self.probed_users[user] != "requesting_shares":
             # SoulseekQt only sends the number of shared files/folders to the server once on startup.
             # Verify user's actual number of files/folders.
             self.log("User '%s' has no shared files according to the server, requesting shares to verify…", user)
