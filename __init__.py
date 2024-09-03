@@ -110,7 +110,7 @@ class Plugin(BasePlugin):
             if self.core.network_filter.is_user_banned(user):
                 self.core.network_filter.unban_user(user)
                 self.log("User '%s' was banned but now is okay, removed ban.", user)
-                self.send_private(user, "You have been unbanned", show_ui=self.settings["open_private_chat"], switch_page=False)
+                self.send_private(user, "You have been automatically unbanned", show_ui=self.settings["open_private_chat"], switch_page=False)
             return
 
         if not self.probed_users[user].startswith("requesting"):
@@ -141,6 +141,7 @@ class Plugin(BasePlugin):
         self.probed_users[user] = "pending_leecher"
         self.log(log_message, (user, num_files, num_folders))
         self.core.network_filter.ban_user(user)
+        self.send_private(user, "You were automatically banned for not sharing a sufficient number of files/folders. Share sufficient files/folders and try again.", show_ui=self.settings["open_private_chat"], switch_page=False)
 
     def upload_queued_notification(self, user, virtual_path, real_path):
 
