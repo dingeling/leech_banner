@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from pynicotine.pluginsystem import BasePlugin
-from pynicotine.logfacility import log
+# from pynicotine.logfacility import log
 
 
 class Plugin(BasePlugin):
@@ -105,16 +105,16 @@ class Plugin(BasePlugin):
 
             if is_user_accepted:
                 self.log("User '%s' is okay, sharing %s files in %s folders.", (user, num_files, num_folders))
-                log.add_debug("User '%s' is okay, sharing %s files in %s folders.", (user, num_files, num_folders))
+                # log.add_debug("User '%s' is okay, sharing %s files in %s folders.", (user, num_files, num_folders))
             else:
                 self.log("Buddy '%s' is sharing %s files in %s folders. Not complaining.", (user, num_files, num_folders))
-                log.add_debug("Buddy '%s' is sharing %s files in %s folders. Not complaining.", (user, num_files, num_folders))
+                # log.add_debug("Buddy '%s' is sharing %s files in %s folders. Not complaining.", (user, num_files, num_folders))
             
             if self.core.network_filter.is_user_banned(user):
                 self.core.network_filter.unban_user(user)
                 self.log("User '%s' was banned but now is okay, removed ban.", user)
                 self.send_private(user, "You have been automatically unbanned.", show_ui=self.settings["open_private_chat"], switch_page=False)
-                log.add_debug("User '%s' was banned but now is okay, removed ban.", user)
+                # log.add_debug("User '%s' was banned but now is okay, removed ban.", user)
             return
 
         if not self.probed_users[user].startswith("requesting"):
@@ -130,7 +130,7 @@ class Plugin(BasePlugin):
             # SoulseekQt only sends the number of shared files/folders to the server once on startup.
             # Verify user's actual number of files/folders.
             self.log("User '%s' has no shared files according to the server, requesting shares to verify…", user)
-            log.add_debug("User '%s' has no shared files according to the server, requesting shares to verify…", user)
+            # log.add_debug("User '%s' has no shared files according to the server, requesting shares to verify…", user)
 
             self.probed_users[user] = "requesting_shares"
             self.core.userbrowse.request_user_shares(user)
@@ -147,7 +147,7 @@ class Plugin(BasePlugin):
         self.log(log_message, (user, num_files, num_folders))
         self.core.network_filter.ban_user(user)
         self.send_private(user, "You were automatically banned for not sharing a sufficient number of files/folders. Share sufficient files/folders and try again. If you think this is a mistake, please drop me a line.", show_ui=self.settings["open_private_chat"], switch_page=False)
-        log.add_debug(log_message, (user, num_files, num_folders))
+        # log.add_debug(log_message, (user, num_files, num_folders))
 
     def upload_queued_notification(self, user, virtual_path, real_path):
 
@@ -179,7 +179,7 @@ class Plugin(BasePlugin):
 
         if not self.settings["message"]:
             self.log("Leecher %s doesn't share enough files. No message is specified in plugin settings.", user)
-            log.add_debug("Leecher %s doesn't share enough files. No message is specified in plugin settings.", user)
+            # log.add_debug("Leecher %s doesn't share enough files. No message is specified in plugin settings.", user)
             return
 
         for line in self.settings["message"].splitlines():
@@ -194,4 +194,4 @@ class Plugin(BasePlugin):
             self.settings["detected_leechers"].append(user)
 
         self.log("Leecher '%s' doesn't share enough files. Message sent.", user)
-        log.add_debug("Leecher '%s' doesn't share enough files. Message sent.", user)
+        # log.add_debug("Leecher '%s' doesn't share enough files. Message sent.", user)
